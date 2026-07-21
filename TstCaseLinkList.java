@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class node {
     int val;
     node next;
@@ -103,70 +105,104 @@ class LinkListCheck {
 
 public class TstCaseLinkList {
 
-    public static void runTestCase(int inputVal) {
-        System.out.println("==========================================");
-        System.out.println("RUNNING TEST CASE FOR INPUT VALUE: " + inputVal);
-        System.out.println("==========================================");
-
-        node head = new node(3);
-        head.next = new node(6);
-        head.next.next = new node(9);
-        head.next.next.next = new node(12);
-
-        System.out.print("Initial List: ");
-        linkListPrint.printlinkList(head);
-        System.out.println();
-
-        head = insertFront.insertAtFront(head, inputVal);
-        System.out.print("After Insert Front (" + inputVal + "): ");
-        linkListPrint.printlinkList(head);
-        System.out.println();
-
-        head = insertBack.insertAtEnd(head, inputVal + 15);
-        System.out.print("After Insert Back (" + (inputVal + 15) + "): ");
-        linkListPrint.printlinkList(head);
-        System.out.println();
-
-        head = delFront.delAtFront(head);
-        System.out.print("After Delete Front: ");
-        linkListPrint.printlinkList(head);
-        System.out.println();
-
-        head = delBack.delAtBack(head);
-        System.out.print("After Delete Back: ");
-        linkListPrint.printlinkList(head);
-        System.out.println();
-
-        node targetNode = findNode.searchNode(head, inputVal);
-        if (targetNode != null) {
-            System.out.println("Node found! Value = " + targetNode.val);
-        } else {
-            System.out.println("Node (" + inputVal + ") isn't found in the list");
-        }
-
-        if (LinkListCheck.isEmpty(head)) {
-            System.out.println("The list is empty!");
-        } else {
-            System.out.println("The list has data.");
-        }
-
-        int length = linkListSize.sizeLinkList(head);
-        System.out.println("Size of Linked List: " + length);
-
-        System.out.print("Final Print via printlinkList: ");
-        linkListPrint.printlinkList(head);
-        System.out.println();
-
-        System.out.print("Final Print via manual loop: ");
-        node temp = head;
-        while (temp != null) {
-            System.out.print(temp.val + " ");
-            temp = temp.next;
-        }
-        System.out.println("\n");
-    }
-
     public static void main(String[] args) {
-        runTestCase(0);
+        Scanner scanner = new Scanner(System.in);
+        node head = null;
+        int choice;
+
+        do {
+            System.out.println("\n------------------------------------------");
+            System.out.println("          LINKED LIST MENU               ");
+            System.out.println("------------------------------------------");
+            System.out.println("1. Insert at Front");
+            System.out.println("2. Insert at End");
+            System.out.println("3. Delete from Front");
+            System.out.println("4. Delete from Back");
+            System.out.println("5. Search Node");
+            System.out.println("6. Check if Empty");
+            System.out.println("7. Get List Size");
+            System.out.println("8. Print List");
+            System.out.println("9. Exit");
+            System.out.print("Enter your choice (1-9): ");
+
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter value to insert at front: ");
+                    int valFront = scanner.nextInt();
+                    head = insertFront.insertAtFront(head, valFront);
+                    System.out.println("Inserted successfully!");
+                    break;
+
+                case 2:
+                    System.out.print("Enter value to insert at back: ");
+                    int valBack = scanner.nextInt();
+                    head = insertBack.insertAtEnd(head, valBack);
+                    System.out.println("Inserted successfully!");
+                    break;
+
+                case 3:
+                    if (LinkListCheck.isEmpty(head)) {
+                        System.out.println("List is empty! Nothing to delete.");
+                    } else {
+                        head = delFront.delAtFront(head);
+                        System.out.println("Deleted front node successfully!");
+                    }
+                    break;
+
+                case 4:
+                    if (LinkListCheck.isEmpty(head)) {
+                        System.out.println("List is empty! Nothing to delete.");
+                    } else {
+                        head = delBack.delAtBack(head);
+                        System.out.println("Deleted back node successfully!");
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("Enter value to search: ");
+                    int searchVal = scanner.nextInt();
+                    node targetNode = findNode.searchNode(head, searchVal);
+                    if (targetNode != null) {
+                        System.out.println("Node found! Value = " + targetNode.val);
+                    } else {
+                        System.out.println("Node (" + searchVal + ") isn't found in the list.");
+                    }
+                    break;
+
+                case 6:
+                    if (LinkListCheck.isEmpty(head)) {
+                        System.out.println("The list is empty!");
+                    } else {
+                        System.out.println("The list has data.");
+                    }
+                    break;
+
+                case 7:
+                    int length = linkListSize.sizeLinkList(head);
+                    System.out.println("Size of Linked List: " + length);
+                    break;
+
+                case 8:
+                    if (LinkListCheck.isEmpty(head)) {
+                        System.out.println("The list is currently empty.");
+                    } else {
+                        System.out.print("Current List: ");
+                        linkListPrint.printlinkList(head);
+                        System.out.println();
+                    }
+                    break;
+
+                case 9:
+                    System.out.println("Exiting menu... Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please select an option from 1 to 9.");
+            }
+        } while (choice != 9);
+
+        scanner.close();
     }
 }
